@@ -13,10 +13,10 @@ const DemandeConge = () => {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-1">
       <h1 className="text-2xl font-bold mb-4">Demande de congé</h1>
 
-      <form onSubmit={handleSubmit} className="bg-white shadow rounded-lg p-6 space-y-4">
+      <form onSubmit={handleSubmit} className="bg-white shadow rounded-lg p-3 space-y-4">
         <div>
           <label className="block mb-1 font-medium">Type de congé</label>
           <select className="w-full border rounded px-3 py-2" value={type} onChange={e => setType(e.target.value)}>
@@ -42,7 +42,7 @@ const DemandeConge = () => {
           <textarea className="w-full border rounded px-3 py-2" rows="3" value={motif} onChange={e => setMotif(e.target.value)} />
         </div>
 
-        <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+        <button type="submit" className="bg-green-600 cursor-pointer text-white px-4 py-2 rounded hover:bg-green-700">
           Soumettre la demande
         </button>
       </form>

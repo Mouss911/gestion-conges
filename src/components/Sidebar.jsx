@@ -27,7 +27,7 @@ const Sidebar = () => {
       </nav>
 
       <div className="px-4 py-4 border-t border-blue-600">
-        <button className="flex items-center space-x-2 w-full p-2 hover:bg-red-600 rounded">
+        <button className="flex items-center space-x-2 w-full p-2 hover:bg-red-600 rounded cursor-pointer">
           <FiLogOut /> <span>Déconnexion</span>
         </button>
       </div>

@@ -1,7 +1,10 @@
-
 const Navbar = () => {
   return (
-    <div className="h-16 bg-white shadow flex items-center justify-end px-6 fixed w-full left-64 top-0 z-10">
+    <div
+      className="h-16 bg-white shadow flex items-center justify-between px-6 fixed top-0 left-64"
+      style={{ width: "calc(100% - 16rem)" }}
+    >
+      <div className="font-bold text-lg">Tableau de bord</div>
       <div className="flex items-center space-x-3">
         <div className="text-right">
           <p className="font-semibold">Moussa Diatta</p>
