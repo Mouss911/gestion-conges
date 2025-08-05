@@ -1,12 +1,20 @@
-// import './App.css'
+import { Routes, Route } from 'react-router-dom';
+import Dashboard from './pages/Dashboard';
+import DemandeConge from './pages/DemandeConge';
+import Historique from './pages/Historique';
+import SoldeConge from './pages/SoldeConge';
 
-function App() {
-
+const App = () => {
   return (
-    <h1 className="text-3xl font-bold underline text-center mt-10">
-      Gestion Des Congés
-    </h1>
-  )
+    // <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/demande" element={<DemandeConge />} />
+        <Route path="/historique" element={<Historique />} />
+        <Route path="/solde" element={<SoldeConge />} />
+      </Routes>
+    // </BrowserRouter>
+  );
 }
 
 export default App
