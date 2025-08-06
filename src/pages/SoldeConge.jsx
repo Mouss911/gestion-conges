@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Button } from '../components/ui/button'
+import { useCounter } from '../hooks/useCounter'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../components/ui/dialog'
 
 // Données simulées plus complètes
@@ -60,6 +61,16 @@ const soldes = [
   }
 ]
 
+const AnimatedCounter = ({ value, delay }) => {
+  const { count, isAnimating } = useCounter(value, 2000, delay)
+  
+  return (
+    <span className={`transition-all duration-300 ${isAnimating ? 'scale-110' : 'scale-100'}`}>
+      {count}
+    </span>
+  )
+}
+
 const SoldeConge = () => {
   const [selectedType, setSelectedType] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -116,7 +127,9 @@ const SoldeConge = () => {
             </div>
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Total restant</p>
-              <p className="text-2xl font-bold text-indigo-600">{statsGlobales.totalRestant} jours</p>
+              <p className="text-2xl font-bold text-indigo-600">
+                <AnimatedCounter value={statsGlobales.totalRestant} delay={0} /> jours
+              </p>
             </div>
           </div>
         </div>
@@ -128,7 +141,9 @@ const SoldeConge = () => {
             </div>
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Utilisé cette année</p>
-              <p className="text-2xl font-bold text-green-600">{statsGlobales.totalUtilise} jours</p>
+              <p className="text-2xl font-bold text-green-600">
+                <AnimatedCounter value={statsGlobales.totalUtilise} delay={200} /> jours
+              </p>
             </div>
           </div>
         </div>
@@ -141,9 +156,12 @@ const SoldeConge = () => {
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Taux d'utilisation</p>
               <p className="text-2xl font-bold text-purple-600">
-                {statsGlobales.totalDisponible > 0 
-                  ? Math.round((statsGlobales.totalUtilise / statsGlobales.totalDisponible) * 100)
-                  : 0}%
+                <AnimatedCounter 
+                  value={statsGlobales.totalDisponible > 0 
+                    ? Math.round((statsGlobales.totalUtilise / statsGlobales.totalDisponible) * 100)
+                    : 0} 
+                  delay={400} 
+                />%
               </p>
             </div>
           </div>
