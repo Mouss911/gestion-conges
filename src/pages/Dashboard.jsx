@@ -5,21 +5,30 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { LeavesTable } from "../components/leaves-table"
 import { Pagination } from "../components/pagination"
 import { StatsCards } from "../components/stats-cards"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../components/ui/dialog"
+import { LeaveRequestForm } from "../components/leave-request-form"
 
 const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState("")
   const [fromDate, setFromDate] = useState("")
   const [toDate, setToDate] = useState("")
   const [status, setStatus] = useState("")
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   return (
     <>
     <StatsCards />
-      <div className="bg-white mt-6 rounded-lg border border-gray-200">
+      <div className="bg-white mt-8 rounded-lg border border-gray-200">
       <div className="p-6 border-b border-gray-200">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-semibold text-gray-900">Leaves</h2>
-          <Button className="bg-blue-600 text-white hover:bg-blue-700">New Request</Button>
+          <Button 
+            className="bg-blue-600 text-white hover:bg-blue-700"
+            onClick={() => setIsModalOpen(true)}
+          >
+            Nouvelle demande
+          </Button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
@@ -58,8 +67,8 @@ const Dashboard = () => {
           </div>
 
           <div className="flex items-end space-x-2">
-            <Button variant="outline">Clear</Button>
-            <Button className="bg-blue-600 hover:bg-blue-700">Filter</Button>
+            <Button variant="outline">Supprimé</Button>
+            <Button className="bg-blue-600 hover:bg-blue-700">Filtre</Button>
           </div>
         </div>
       </div>
@@ -67,6 +76,35 @@ const Dashboard = () => {
       <LeavesTable />
       <Pagination />
     </div>
+
+    {/* Modal pour nouvelle demande */}
+    <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+      <DialogContent className="max-w-md">
+        <DialogHeader>
+          <DialogTitle>Nouvelle demande de congé</DialogTitle>
+        </DialogHeader>
+        <LeaveRequestForm
+          onSubmit={async (data) => {
+            setIsSubmitting(true)
+            try {
+              // Ici vous pouvez ajouter l'appel API pour soumettre la demande
+              console.log("Données de la demande:", data)
+              // Simuler un délai d'API
+              await new Promise(resolve => setTimeout(resolve, 1000))
+              setIsModalOpen(false)
+              // Vous pouvez ajouter une notification de succès ici
+            } catch (error) {
+              console.error("Erreur lors de la soumission:", error)
+              // Vous pouvez ajouter une notification d'erreur ici
+            } finally {
+              setIsSubmitting(false)
+            }
+          }}
+          onCancel={() => setIsModalOpen(false)}
+          isLoading={isSubmitting}
+        />
+      </DialogContent>
+    </Dialog>
     </>
     
   )

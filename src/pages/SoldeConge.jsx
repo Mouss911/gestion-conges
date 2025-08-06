@@ -1,25 +1,301 @@
-const soldes = [
-  { type: 'Annuel', restant: 10 },
-  { type: 'Maladie', restant: 5 },
-  { type: 'Maternité', restant: 0 },
-];
-const SoldeConge = () => {
-  return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Solde de congés</h1>
+import { useState } from 'react'
+import { Button } from '../components/ui/button'
 
-      <div className="grid md:grid-cols-3 gap-4">
-        {soldes.map((s, index) => (
-          <div key={index} className="bg-white shadow rounded-lg p-4">
-            <h2 className="text-lg font-semibold">{s.type}</h2>
-            <p className={`text-2xl font-bold ${s.restant > 0 ? 'text-green-600' : 'text-red-600'}`}>
-              {s.restant} jours
-            </p>
+// Données simulées plus complètes
+const soldes = [
+  { 
+    type: 'Annuel', 
+    restant: 10, 
+    total: 25, 
+    utilise: 15,
+    couleur: 'blue',
+    icone: '🏖️',
+    description: 'Congés payés annuels'
+  },
+  { 
+    type: 'Maladie', 
+    restant: 5, 
+    total: 10, 
+    utilise: 5,
+    couleur: 'red',
+    icone: '🏥',
+    description: 'Congés maladie'
+  },
+  { 
+    type: 'Maternité', 
+    restant: 0, 
+    total: 0, 
+    utilise: 0,
+    couleur: 'pink',
+    icone: '👶',
+    description: 'Congé maternité'
+  },
+  { 
+    type: 'Formation', 
+    restant: 8, 
+    total: 12, 
+    utilise: 4,
+    couleur: 'purple',
+    icone: '📚',
+    description: 'Congés formation'
+  },
+  { 
+    type: 'RTT', 
+    restant: 3, 
+    total: 8, 
+    utilise: 5,
+    couleur: 'orange',
+    icone: '⏰',
+    description: 'Récupération temps de travail'
+  },
+  { 
+    type: 'Autre', 
+    restant: 2, 
+    total: 5, 
+    utilise: 3,
+    couleur: 'gray',
+    icone: '📋',
+    description: 'Autres types de congés'
+  }
+]
+
+const SoldeConge = () => {
+  const [selectedType, setSelectedType] = useState(null)
+
+  // Calcul des statistiques globales
+  const statsGlobales = soldes.reduce((acc, solde) => {
+    acc.totalRestant += solde.restant
+    acc.totalUtilise += solde.utilise
+    acc.totalDisponible += solde.total
+    return acc
+  }, { totalRestant: 0, totalUtilise: 0, totalDisponible: 0 })
+
+  const getCouleurClasses = (couleur, type = 'bg') => {
+    const couleurs = {
+      blue: type === 'bg' ? 'bg-blue-500' : 'text-blue-600',
+      red: type === 'bg' ? 'bg-red-500' : 'text-red-600',
+      pink: type === 'bg' ? 'bg-pink-500' : 'text-pink-600',
+      purple: type === 'bg' ? 'bg-purple-500' : 'text-purple-600',
+      orange: type === 'bg' ? 'bg-orange-500' : 'text-orange-600',
+      gray: type === 'bg' ? 'bg-gray-500' : 'text-gray-600'
+    }
+    return couleurs[couleur] || 'bg-gray-500'
+  }
+
+  const getProgressColor = (pourcentage) => {
+    if (pourcentage >= 80) return 'bg-green-500'
+    if (pourcentage >= 60) return 'bg-yellow-500'
+    if (pourcentage >= 40) return 'bg-orange-500'
+    return 'bg-red-500'
+  }
+
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('fr-FR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    })
+  }
+
+  return (
+    <div className="p-6 max-w-7xl mx-auto">
+      {/* En-tête */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Solde de congés</h1>
+        <p className="text-gray-600">Consultez vos soldes de congés et vos droits restants</p>
+      </div>
+
+      {/* Statistiques globales */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+          <div className="flex items-center">
+            <div className="p-2 bg-blue-100 rounded-lg">
+              <span className="text-2xl">📊</span>
+            </div>
+            <div className="ml-4">
+              <p className="text-sm font-medium text-gray-600">Total restant</p>
+              <p className="text-2xl font-bold text-blue-600">{statsGlobales.totalRestant} jours</p>
+            </div>
           </div>
-        ))}
+        </div>
+
+        <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+          <div className="flex items-center">
+            <div className="p-2 bg-green-100 rounded-lg">
+              <span className="text-2xl">✅</span>
+            </div>
+            <div className="ml-4">
+              <p className="text-sm font-medium text-gray-600">Utilisé cette année</p>
+              <p className="text-2xl font-bold text-green-600">{statsGlobales.totalUtilise} jours</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+          <div className="flex items-center">
+            <div className="p-2 bg-purple-100 rounded-lg">
+              <span className="text-2xl">🎯</span>
+            </div>
+            <div className="ml-4">
+              <p className="text-sm font-medium text-gray-600">Taux d'utilisation</p>
+              <p className="text-2xl font-bold text-purple-600">
+                {statsGlobales.totalDisponible > 0 
+                  ? Math.round((statsGlobales.totalUtilise / statsGlobales.totalDisponible) * 100)
+                  : 0}%
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Cartes de soldes */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        {soldes.map((solde, index) => {
+          const pourcentage = solde.total > 0 ? (solde.utilise / solde.total) * 100 : 0
+          const pourcentageRestant = solde.total > 0 ? (solde.restant / solde.total) * 100 : 0
+          
+          return (
+            <div 
+              key={index} 
+              className={`bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow cursor-pointer ${
+                selectedType === solde.type ? 'ring-2 ring-blue-500' : ''
+              }`}
+              onClick={() => setSelectedType(selectedType === solde.type ? null : solde.type)}
+            >
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center">
+                    <span className="text-2xl mr-3">{solde.icone}</span>
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900">{solde.type}</h3>
+                      <p className="text-sm text-gray-500">{solde.description}</p>
+                    </div>
+                  </div>
+                  <div className={`w-3 h-3 rounded-full ${getCouleurClasses(solde.couleur, 'bg')}`}></div>
+                </div>
+
+                <div className="mb-4">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-sm font-medium text-gray-700">Restant</span>
+                    <span className="text-sm font-bold text-gray-900">{solde.restant} / {solde.total}</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div 
+                      className={`h-2 rounded-full ${getProgressColor(pourcentageRestant)}`}
+                      style={{ width: `${Math.min(pourcentageRestant, 100)}%` }}
+                    ></div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <p className="text-gray-500">Utilisé</p>
+                    <p className="font-semibold text-red-600">{solde.utilise} jours</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500">Restant</p>
+                    <p className={`font-semibold ${solde.restant > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                      {solde.restant} jours
+                    </p>
+                  </div>
+                </div>
+
+                {solde.restant === 0 && (
+                  <div className="mt-3 p-2 bg-red-50 border border-red-200 rounded-md">
+                    <p className="text-xs text-red-600 font-medium">Aucun jour restant</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
+      {/* Détails du type sélectionné */}
+      {selectedType && (
+        <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-6 mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-gray-900">
+              Détails - {selectedType}
+            </h2>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setSelectedType(null)}
+            >
+              Fermer
+            </Button>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h3 className="text-lg font-semibold mb-3">Historique récent</h3>
+              <div className="space-y-3">
+                {[
+                  { date: '2025-07-15', duree: 3, motif: 'Vacances d\'été' },
+                  { date: '2025-06-20', duree: 1, motif: 'Rendez-vous médical' },
+                  { date: '2025-05-10', duree: 2, motif: 'Formation' }
+                ].map((item, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+                    <div>
+                      <p className="font-medium text-gray-900">{item.motif}</p>
+                      <p className="text-sm text-gray-500">{formatDate(item.date)}</p>
+                    </div>
+                    <span className="text-sm font-semibold text-gray-700">{item.duree} jour(s)</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="text-lg font-semibold mb-3">Informations</h3>
+              <div className="space-y-3">
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Total annuel :</span>
+                  <span className="font-semibold">{soldes.find(s => s.type === selectedType)?.total} jours</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Utilisé :</span>
+                  <span className="font-semibold text-red-600">{soldes.find(s => s.type === selectedType)?.utilise} jours</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Restant :</span>
+                  <span className="font-semibold text-green-600">{soldes.find(s => s.type === selectedType)?.restant} jours</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-600">Taux d'utilisation :</span>
+                  <span className="font-semibold">
+                    {soldes.find(s => s.type === selectedType)?.total > 0 
+                      ? Math.round((soldes.find(s => s.type === selectedType)?.utilise / soldes.find(s => s.type === selectedType)?.total) * 100)
+                      : 0}%
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Actions rapides */}
+      <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-6">
+        <h2 className="text-lg font-semibold mb-4">Actions rapides</h2>
+        <div className="flex flex-wrap gap-3">
+          <Button className="bg-blue-600 hover:bg-blue-700">
+            📋 Nouvelle demande
+          </Button>
+          <Button variant="outline">
+            📊 Voir l'historique
+          </Button>
+          <Button variant="outline">
+            📅 Calendrier des congés
+          </Button>
+          <Button variant="outline">
+            📧 Contacter RH
+          </Button>
+        </div>
       </div>
     </div>
-  );
+  )
 }
 
 export default SoldeConge

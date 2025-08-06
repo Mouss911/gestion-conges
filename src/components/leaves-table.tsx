@@ -9,7 +9,7 @@ interface LeaveRecord {
   to: string
   days: string
   reason: string
-  status: "Pending" | "Cancelled" | "Approved" | "Declined"
+  status: "En attente" | "Approuvée" | "Annulé" | "Refusé"
 }
 
 const leaveData: LeaveRecord[] = [
@@ -20,7 +20,7 @@ const leaveData: LeaveRecord[] = [
     to: "19 Feb 2020 - 6:00 PM",
     days: "1 d",
     reason: "Friend's wedding celebration",
-    status: "Pending",
+    status: "En attente",
   },
   {
     sno: 2,
@@ -29,7 +29,7 @@ const leaveData: LeaveRecord[] = [
     to: "19 Feb 2020 - 6:00 PM",
     days: "1 d",
     reason: "Friend's wedding celebration",
-    status: "Cancelled",
+    status: "En attente",
   },
   {
     sno: 3,
@@ -38,7 +38,7 @@ const leaveData: LeaveRecord[] = [
     to: "19 Feb 2020 - 6:00 PM",
     days: "1 d",
     reason: "Friend's wedding celebration",
-    status: "Approved",
+    status: "Approuvée",
   },
   {
     sno: 4,
@@ -47,7 +47,7 @@ const leaveData: LeaveRecord[] = [
     to: "19 Feb 2020 - 6:00 PM",
     days: "1 d",
     reason: "Friend's wedding celebration",
-    status: "Declined",
+    status: "Refusé",
   },
   {
     sno: 5,
@@ -56,7 +56,7 @@ const leaveData: LeaveRecord[] = [
     to: "19 Feb 2020 - 6:00 PM",
     days: "1 d",
     reason: "Friend's wedding celebration",
-    status: "Pending",
+    status: "Annulé",
   },
 ]
 
