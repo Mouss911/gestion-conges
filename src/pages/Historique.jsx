@@ -133,7 +133,7 @@ const Historique = () => {
   }
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <div className="p-4 sm:p-6 max-w-7xl mx-auto">
       {/* En-tête */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Historique des demandes</h1>
@@ -141,9 +141,9 @@ const Historique = () => {
       </div>
 
       {/* Statistiques */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div className="bg-white p-4 rounded-lg border border-gray-200">
-          <div className="text-2xl font-bold text-blue-600">{stats.total}</div>
+          <div className="text-2xl font-bold text-indigo-600">{stats.total}</div>
           <div className="text-sm text-gray-600">Total des demandes</div>
         </div>
         <div className="bg-white p-4 rounded-lg border border-gray-200">
@@ -162,7 +162,7 @@ const Historique = () => {
 
       {/* Filtres */}
       <div className="bg-white p-4 rounded-lg border border-gray-200 mb-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Recherche</label>
             <Input
@@ -201,9 +201,10 @@ const Historique = () => {
               </SelectContent>
             </Select>
           </div>
-          <div className="flex items-end">
+          <div className="flex items-end sm:col-span-2 lg:col-span-1">
             <Button
               variant="outline"
+              className="w-full sm:w-auto"
               onClick={() => {
                 setSearchTerm('')
                 setStatusFilter('all')

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Button } from '../components/ui/button'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../components/ui/dialog'
 
 // Données simulées plus complètes
 const soldes = [
@@ -61,6 +62,7 @@ const soldes = [
 
 const SoldeConge = () => {
   const [selectedType, setSelectedType] = useState(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   // Calcul des statistiques globales
   const statsGlobales = soldes.reduce((acc, solde) => {
@@ -98,7 +100,7 @@ const SoldeConge = () => {
   }
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <div className="p-4 sm:p-6 max-w-7xl mx-auto">
       {/* En-tête */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Solde de congés</h1>
@@ -106,20 +108,20 @@ const SoldeConge = () => {
       </div>
 
       {/* Statistiques globales */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
+        <div className="bg-white p-4 sm:p-6 rounded-lg border border-gray-200 shadow-sm">
           <div className="flex items-center">
-            <div className="p-2 bg-blue-100 rounded-lg">
+            <div className="p-2 bg-indigo-100 rounded-lg">
               <span className="text-2xl">📊</span>
             </div>
             <div className="ml-4">
               <p className="text-sm font-medium text-gray-600">Total restant</p>
-              <p className="text-2xl font-bold text-blue-600">{statsGlobales.totalRestant} jours</p>
+              <p className="text-2xl font-bold text-indigo-600">{statsGlobales.totalRestant} jours</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+        <div className="bg-white p-4 sm:p-6 rounded-lg border border-gray-200 shadow-sm">
           <div className="flex items-center">
             <div className="p-2 bg-green-100 rounded-lg">
               <span className="text-2xl">✅</span>
@@ -131,7 +133,7 @@ const SoldeConge = () => {
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+        <div className="bg-white p-4 sm:p-6 rounded-lg border border-gray-200 shadow-sm">
           <div className="flex items-center">
             <div className="p-2 bg-purple-100 rounded-lg">
               <span className="text-2xl">🎯</span>
@@ -149,20 +151,20 @@ const SoldeConge = () => {
       </div>
 
       {/* Cartes de soldes */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-        {soldes.map((solde, index) => {
-          const pourcentage = solde.total > 0 ? (solde.utilise / solde.total) * 100 : 0
-          const pourcentageRestant = solde.total > 0 ? (solde.restant / solde.total) * 100 : 0
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
+                 {soldes.map((solde, index) => {
+           const pourcentageRestant = solde.total > 0 ? (solde.restant / solde.total) * 100 : 0
           
           return (
-            <div 
-              key={index} 
-              className={`bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow cursor-pointer ${
-                selectedType === solde.type ? 'ring-2 ring-blue-500' : ''
-              }`}
-              onClick={() => setSelectedType(selectedType === solde.type ? null : solde.type)}
-            >
-              <div className="p-6">
+                         <div 
+               key={index} 
+               className="bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+               onClick={() => {
+                 setSelectedType(solde.type)
+                 setIsModalOpen(true)
+               }}
+             >
+              <div className="p-4 sm:p-6">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center">
                     <span className="text-2xl mr-3">{solde.icone}</span>
@@ -211,76 +213,70 @@ const SoldeConge = () => {
         })}
       </div>
 
-      {/* Détails du type sélectionné */}
-      {selectedType && (
-        <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-6 mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold text-gray-900">
-              Détails - {selectedType}
-            </h2>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setSelectedType(null)}
-            >
-              Fermer
-            </Button>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <h3 className="text-lg font-semibold mb-3">Historique récent</h3>
-              <div className="space-y-3">
-                {[
-                  { date: '2025-07-15', duree: 3, motif: 'Vacances d\'été' },
-                  { date: '2025-06-20', duree: 1, motif: 'Rendez-vous médical' },
-                  { date: '2025-05-10', duree: 2, motif: 'Formation' }
-                ].map((item, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-md">
-                    <div>
-                      <p className="font-medium text-gray-900">{item.motif}</p>
-                      <p className="text-sm text-gray-500">{formatDate(item.date)}</p>
-                    </div>
-                    <span className="text-sm font-semibold text-gray-700">{item.duree} jour(s)</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            
-            <div>
-              <h3 className="text-lg font-semibold mb-3">Informations</h3>
-              <div className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Total annuel :</span>
-                  <span className="font-semibold">{soldes.find(s => s.type === selectedType)?.total} jours</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Utilisé :</span>
-                  <span className="font-semibold text-red-600">{soldes.find(s => s.type === selectedType)?.utilise} jours</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Restant :</span>
-                  <span className="font-semibold text-green-600">{soldes.find(s => s.type === selectedType)?.restant} jours</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Taux d'utilisation :</span>
-                  <span className="font-semibold">
-                    {soldes.find(s => s.type === selectedType)?.total > 0 
-                      ? Math.round((soldes.find(s => s.type === selectedType)?.utilise / soldes.find(s => s.type === selectedType)?.total) * 100)
-                      : 0}%
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+             {/* Modal de détails */}
+       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+         <DialogContent className="max-w-4xl">
+           <DialogHeader>
+             <DialogTitle className="flex items-center">
+               <span className="text-2xl mr-3">{soldes.find(s => s.type === selectedType)?.icone}</span>
+               Détails - {selectedType}
+             </DialogTitle>
+           </DialogHeader>
+           
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+             <div>
+               <h3 className="text-lg font-semibold mb-3">Historique récent</h3>
+               <div className="space-y-3">
+                 {[
+                   { date: '2025-07-15', duree: 3, motif: 'Vacances d\'été' },
+                   { date: '2025-06-20', duree: 1, motif: 'Rendez-vous médical' },
+                   { date: '2025-05-10', duree: 2, motif: 'Formation' }
+                 ].map((item, index) => (
+                   <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-md">
+                     <div>
+                       <p className="font-medium text-gray-900">{item.motif}</p>
+                       <p className="text-sm text-gray-500">{formatDate(item.date)}</p>
+                     </div>
+                     <span className="text-sm font-semibold text-gray-700">{item.duree} jour(s)</span>
+                   </div>
+                 ))}
+               </div>
+             </div>
+             
+             <div>
+               <h3 className="text-lg font-semibold mb-3">Informations</h3>
+               <div className="space-y-3">
+                 <div className="flex justify-between">
+                   <span className="text-gray-600">Total annuel :</span>
+                   <span className="font-semibold">{soldes.find(s => s.type === selectedType)?.total} jours</span>
+                 </div>
+                 <div className="flex justify-between">
+                   <span className="text-gray-600">Utilisé :</span>
+                   <span className="font-semibold text-red-600">{soldes.find(s => s.type === selectedType)?.utilise} jours</span>
+                 </div>
+                 <div className="flex justify-between">
+                   <span className="text-gray-600">Restant :</span>
+                   <span className="font-semibold text-green-600">{soldes.find(s => s.type === selectedType)?.restant} jours</span>
+                 </div>
+                 <div className="flex justify-between">
+                   <span className="text-gray-600">Taux d'utilisation :</span>
+                   <span className="font-semibold">
+                     {soldes.find(s => s.type === selectedType)?.total > 0 
+                       ? Math.round((soldes.find(s => s.type === selectedType)?.utilise / soldes.find(s => s.type === selectedType)?.total) * 100)
+                       : 0}%
+                   </span>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </DialogContent>
+       </Dialog>
 
       {/* Actions rapides */}
       <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-6">
         <h2 className="text-lg font-semibold mb-4">Actions rapides</h2>
         <div className="flex flex-wrap gap-3">
-          <Button className="bg-blue-600 hover:bg-blue-700">
+          <Button className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700">
             📋 Nouvelle demande
           </Button>
           <Button variant="outline">

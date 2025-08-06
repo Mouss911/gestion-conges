@@ -8,18 +8,18 @@ interface StatCardProps {
   }
   
   function StatCard({ number, label, sublabel, color }: StatCardProps) {
-    const colorClasses = {
-      blue: "text-blue-600",
-      purple: "text-purple-600",
-      orange: "text-orange-600",
-      red: "text-red-600",
-    }
+      const colorClasses = {
+    blue: "text-indigo-600",
+    purple: "text-purple-600",
+    orange: "text-amber-600",
+    red: "text-rose-600",
+  }
   
     return (
-      <div className="bg-white rounded-lg p-6 border border-gray-200">
-        <div className={`text-3xl font-bold ${colorClasses[color]} mb-2`}>{number}</div>
-        <div className="text-gray-900 font-medium">{label}</div>
-        <div className="text-gray-500 text-sm">{sublabel}</div>
+      <div className="bg-white rounded-lg p-4 sm:p-6 border border-gray-200">
+        <div className={`text-2xl sm:text-3xl font-bold ${colorClasses[color]} mb-2`}>{number}</div>
+        <div className="text-gray-900 font-medium text-sm sm:text-base">{label}</div>
+        <div className="text-gray-500 text-xs sm:text-sm">{sublabel}</div>
       </div>
     )
   }
@@ -33,7 +33,7 @@ interface StatCardProps {
     ]
   
     return (
-      <div className="grid mt-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {stats.map((stat, index) => (
           <StatCard key={index} {...stat} />
         ))}

@@ -6,9 +6,9 @@ export default function LayoutEmploye() {
   return (
     <div className="flex">
       <Sidebar />
-      <div className="ml-64 flex-1 bg-gray-100 min-h-screen">
+      <div className="flex-1 bg-gray-100 min-h-screen lg:ml-64">
         <Navbar />
-        <main className="pt-20 px-6 pb-10">
+        <main className="pt-20 px-4 lg:px-6 pb-10">
           <Outlet />
         </main>
       </div>

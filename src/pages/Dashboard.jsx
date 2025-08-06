@@ -19,20 +19,20 @@ const Dashboard = () => {
   return (
     <>
     <StatsCards />
-      <div className="bg-white mt-8 rounded-lg border border-gray-200">
-      <div className="p-6 border-b border-gray-200">
-        <div className="flex items-center justify-between mb-6">
+      <div className="bg-white mt-4 rounded-lg border border-gray-200">
+      <div className="p-4 sm:p-6 border-b border-gray-200">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 space-y-4 sm:space-y-0">
           <h2 className="text-xl font-semibold text-gray-900">Leaves</h2>
           <Button 
-            className="bg-blue-600 text-white hover:bg-blue-700"
+            className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 w-full sm:w-auto"
             onClick={() => setIsModalOpen(true)}
           >
             Nouvelle demande
           </Button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-          <div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="sm:col-span-2 lg:col-span-1">
             <label className="block text-sm font-medium text-gray-700 mb-1">Recherche</label>
             <Input
               placeholder="Leave Type or Reason"
@@ -42,12 +42,12 @@ const Dashboard = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Date début</label>
             <Input placeholder="dd / MMM / yyyy" value={fromDate} onChange={(e) => setFromDate(e.target.value)} />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Date fin</label>
             <Input placeholder="dd / MMM / yyyy" value={toDate} onChange={(e) => setToDate(e.target.value)} />
           </div>
 
@@ -66,9 +66,9 @@ const Dashboard = () => {
             </Select>
           </div>
 
-          <div className="flex items-end space-x-2">
-            <Button variant="outline">Supprimé</Button>
-            <Button className="bg-blue-600 hover:bg-blue-700">Filtre</Button>
+          <div className="flex flex-col sm:flex-row items-end space-y-2 sm:space-y-0 sm:space-x-2">
+            <Button variant="outline" className="w-full sm:w-auto">Supprimé</Button>
+            <Button className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 w-full sm:w-auto">Filtre</Button>
           </div>
         </div>
       </div>
