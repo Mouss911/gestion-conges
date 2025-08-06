@@ -39,7 +39,10 @@ export default function LoginPage() {
 
           {/* Decorative circles */}
 
-          <div className="absolute bottom-32 right-20 w-20 h-20 bg-black rounded-full"></div>
+          <div
+            className="absolute bottom-32 right-20 w-20 h-20 bg-black rounded-full animate-bounce"
+            style={{ animationDelay: '0.8s', animationDuration: '1s' }}
+          ></div>
         </div>
 
 

@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { Button } from '../components/ui/button'
 import { Input } from '../components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select'
+import { useCounter } from '../hooks/useCounter'
 
 // Données simulées plus complètes
 const demandes = [
@@ -66,6 +67,16 @@ const demandes = [
     duree: 1
   }
 ]
+
+const AnimatedCounter = ({ value, delay }) => {
+  const { count, isAnimating } = useCounter(value, 2000, delay)
+  
+  return (
+    <span className={`transition-all duration-300 ${isAnimating ? 'scale-110' : 'scale-100'}`}>
+      {count}
+    </span>
+  )
+}
 
 const Historique = () => {
   const [searchTerm, setSearchTerm] = useState('')
@@ -143,19 +154,27 @@ const Historique = () => {
       {/* Statistiques */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div className="bg-white p-4 rounded-lg border border-gray-200">
-          <div className="text-2xl font-bold text-indigo-600">{stats.total}</div>
+          <div className="text-2xl font-bold text-indigo-600">
+            <AnimatedCounter value={stats.total} delay={0} />
+          </div>
           <div className="text-sm text-gray-600">Total des demandes</div>
         </div>
         <div className="bg-white p-4 rounded-lg border border-gray-200">
-          <div className="text-2xl font-bold text-green-600">{stats.approuvees}</div>
+          <div className="text-2xl font-bold text-green-600">
+            <AnimatedCounter value={stats.approuvees} delay={200} />
+          </div>
           <div className="text-sm text-gray-600">Approuvées</div>
         </div>
         <div className="bg-white p-4 rounded-lg border border-gray-200">
-          <div className="text-2xl font-bold text-red-600">{stats.rejetees}</div>
+          <div className="text-2xl font-bold text-red-600">
+            <AnimatedCounter value={stats.rejetees} delay={400} />
+          </div>
           <div className="text-sm text-gray-600">Rejetées</div>
         </div>
         <div className="bg-white p-4 rounded-lg border border-gray-200">
-          <div className="text-2xl font-bold text-yellow-600">{stats.enAttente}</div>
+          <div className="text-2xl font-bold text-yellow-600">
+            <AnimatedCounter value={stats.enAttente} delay={600} />
+          </div>
           <div className="text-sm text-gray-600">En attente</div>
         </div>
       </div>

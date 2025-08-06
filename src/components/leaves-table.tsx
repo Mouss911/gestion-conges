@@ -62,10 +62,10 @@ const leaveData: LeaveRecord[] = [
 
 function StatusBadge({ status }: { status: LeaveRecord["status"] }) {
   const statusStyles = {
-    Pending: "text-gray-600",
-    Cancelled: "text-gray-400",
-    Approved: "text-green-600",
-    Declined: "text-blue-600",
+    'En attente': "text-gray-600",
+    'Annulé': "text-gray-400",
+    'Approuvée': "text-green-600",
+    'Refusé': "text-blue-600",
   }
 
   return <span className={`font-medium ${statusStyles[status]}`}>{status}</span>
