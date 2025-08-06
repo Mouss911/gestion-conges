@@ -4,19 +4,23 @@ import Dashboard from './pages/Dashboard';
 import DemandeConge from './pages/DemandeConge';
 import Historique from './pages/Historique';
 import SoldeConge from './pages/SoldeConge';
+import LoginPage from './pages/loginEmploye/Login-page';
 
-const App = () => {
-  return (
-    <LayoutEmploye>
-      <Routes>
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/demande" element={<DemandeConge />} />
-        <Route path="/historique" element={<Historique />} />
-        <Route path="/solde" element={<SoldeConge />} />
-        <Route path="*" element={<Dashboard />} />
-      </Routes>
-    </LayoutEmploye>
-  );
-}
+const App = () => (
+  <Routes>
+    {/* Route login comme page par défaut */}
+    
+    <Route path="/login" element={<LoginPage />} />
+    
+    {/* Routes protégées avec layout */}
+    <Route path="/" element={<LayoutEmploye />}>
+      <Route path="dashboard" element={<Dashboard />} />
+      <Route path="demande" element={<DemandeConge />} />
+      <Route path="historique" element={<Historique />} />
+      <Route path="solde" element={<SoldeConge />} />
+      <Route path="*" element={<LoginPage />} />
+    </Route>
+  </Routes>
+);
 
-export default App
+export default App;
