@@ -11,10 +11,10 @@ import React from 'react'
 export default function LoginPage() {
   return (
     <div className="min-h-screen bg-white relative overflow-hidden">
-      
+
       <div className="relative z-10 min-h-screen flex">
         {/* Left Side - Login Form */}
-        
+
 
         {/* Right Side - Welcome Section */}
         <div className="flex-1 bg-gradient-to-br from-red-800 to-red-400 flex items-center justify-center p-8 relative">
@@ -31,14 +31,14 @@ export default function LoginPage() {
             {/* Document Illustration */}
             <div className="flex justify-center">
               <div className="relative">
-              <img src={logo} alt="logo" className="w-32 h-32" />
-                
+                <img src={logo} alt="logo" className="w-32 h-32" />
+
               </div>
             </div>
           </div>
 
           {/* Decorative circles */}
-          
+
           <div className="absolute bottom-32 right-20 w-20 h-20 bg-black rounded-full"></div>
         </div>
 
@@ -57,12 +57,12 @@ export default function LoginPage() {
               <h1 className="text-2xl font-normal text-gray-900">Connectez-vous à votre compte</h1>
             </div>
 
-            
 
-            
+
+
 
             {/* Login Form */}
-      <BackgroundShapes />
+            <BackgroundShapes />
             <form className="space-y-6">
               <div>
                 <InputWithIcon
